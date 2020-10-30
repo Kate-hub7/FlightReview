@@ -1,0 +1,2 @@
+rootProject.name='FlightReviewScreen'
+include ':app'
