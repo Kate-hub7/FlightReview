@@ -1,2 +1,2 @@
-rootProject.name='FlightReviewScreen'
+rootProject.name='FlightReview'
 include ':app'

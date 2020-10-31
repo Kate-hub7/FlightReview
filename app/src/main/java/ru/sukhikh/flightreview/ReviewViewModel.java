@@ -1,4 +1,4 @@
-package ru.sukhikh.flightreviewscreen;
+package ru.sukhikh.flightreview;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.sukhikh.flightreviewscreen.Entity.Rating;
+import ru.sukhikh.flightreview.Entity.Rating;
 
 public class ReviewViewModel extends ViewModel {
 

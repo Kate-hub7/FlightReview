@@ -1,4 +1,4 @@
-package ru.sukhikh.flightreviewscreen;
+package ru.sukhikh.flightreview;
 
 import org.junit.Test;
 

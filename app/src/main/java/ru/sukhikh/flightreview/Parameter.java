@@ -1,4 +1,4 @@
-package ru.sukhikh.flightreviewscreen;
+package ru.sukhikh.flightreview;
 
 public enum Parameter{
     FOOD ("How do you rate the food?"),

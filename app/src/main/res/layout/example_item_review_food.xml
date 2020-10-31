@@ -36,7 +36,7 @@
             android:id="@+id/checkBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@drawable/custom_check_box"
+            android:button="@drawable/custom_checkbox"
             android:stateListAnimator="@null"
             android:text="There were no food" />
 

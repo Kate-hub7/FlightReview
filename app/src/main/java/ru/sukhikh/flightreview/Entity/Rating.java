@@ -1,6 +1,6 @@
-package ru.sukhikh.flightreviewscreen.Entity;
+package ru.sukhikh.flightreview.Entity;
 
-import ru.sukhikh.flightreviewscreen.Parameter;
+import ru.sukhikh.flightreview.Parameter;
 
 public class Rating {
 

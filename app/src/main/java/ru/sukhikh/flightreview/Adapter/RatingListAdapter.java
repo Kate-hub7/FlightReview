@@ -1,4 +1,4 @@
-package ru.sukhikh.flightreviewscreen.Adapter;
+package ru.sukhikh.flightreview.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.sukhikh.flightreviewscreen.Entity.Rating;
-import ru.sukhikh.flightreviewscreen.R;
+import ru.sukhikh.flightreview.Entity.Rating;
+import ru.sukhikh.flightreview.R;
+
 
 public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

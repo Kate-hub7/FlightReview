@@ -6,11 +6,12 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/close"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="15dp"
         android:stateListAnimator="@null"
-        android:background="@drawable/ic_clear_black_24dp"
+        android:background="@drawable/clear"
         android:elevation="0dp"/>
     <TextView
         android:layout_width="match_parent"
@@ -56,33 +57,34 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:text="American Airlines, AA 1487"/>
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:cardBackgroundColor="#30c858"
-            app:cardCornerRadius="7dp">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:textSize="18dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="16dp"
                 android:textStyle="bold"
-                android:text="5,0"/>
+                android:text="American Airlines, AA 1487"/>
 
-        </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:cardBackgroundColor="#30c858"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:text="5,0"/>
+
+            </androidx.cardview.widget.CardView>
 
             <GridView
                 android:id="@+id/recycler"
