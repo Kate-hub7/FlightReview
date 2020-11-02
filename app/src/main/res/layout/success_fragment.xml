@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:padding="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     android:layout_height="match_parent">
 
     <Button
@@ -20,7 +21,7 @@
         android:textColor="@color/colorBlack"
         android:textStyle="bold"
         android:layout_marginTop="20dp"
-        android:textSize="22dp"/>
+        android:textSize="19sp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,8 +30,8 @@
 
     <ImageView
         android:id="@+id/reward"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
@@ -41,7 +42,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorBlack"
         android:textStyle="bold"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:text="How other rate this flight"/>
 
     <androidx.cardview.widget.CardView
@@ -61,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorBlack"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:text="American Airlines, AA 1487"/>
 
@@ -75,12 +76,13 @@
                 app:cardCornerRadius="7dp">
 
                 <TextView
+                    android:id="@+id/overall_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:paddingRight="10dp"
                     android:paddingLeft="10dp"
-                    android:textSize="18dp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:text="5,0"/>
 
@@ -96,5 +98,57 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/star" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Flight reviews"
+            android:paddingLeft="5dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawableEnd="@drawable/chevron_right"
+            android:stateListAnimator="@null"
+            android:textColor="@color/colorGrey"
+            android:textAlignment="viewEnd"
+            android:text="34" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/separator" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:textColor="#429fff"
+        android:stateListAnimator="@null"
+        android:background="@android:color/transparent"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:text="Done"/>
 
 </LinearLayout>

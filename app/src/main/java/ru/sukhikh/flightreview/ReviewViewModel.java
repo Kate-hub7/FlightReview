@@ -21,6 +21,8 @@ public class ReviewViewModel extends ViewModel {
         return raringLiveData;
     }
 
+    public Rating getFlightData(){return ratingList.get(ratingList.size()-1);}
+
     public void updateLiveData(List<Rating> newList){
         raringLiveData.setValue(newList);
     }
@@ -38,7 +40,7 @@ public class ReviewViewModel extends ViewModel {
         ratingList.add(new Rating(Parameter.SEAT, 0, false));
         ratingList.add(new Rating(Parameter.CREW, 0, false));
         ratingList.add(new Rating(Parameter.FOOD, 0, false));
-
+        ratingList.add(new Rating(Parameter.FLIGHT, 0, false));
     }
 
 }

@@ -8,12 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -21,39 +20,44 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+
 import java.util.List;
 
 import ru.sukhikh.flightreview.Adapter.RatingListAdapter;
+import ru.sukhikh.flightreview.Entity.Feedback;
 import ru.sukhikh.flightreview.Entity.Rating;
-import ru.sukhikh.flightreview.Feedback;
 import ru.sukhikh.flightreview.FeedbackViewModel;
-import ru.sukhikh.flightreview.MainActivity;
 import ru.sukhikh.flightreview.R;
 import ru.sukhikh.flightreview.ReviewViewModel;
 
 
 public class SubmitFragment extends Fragment {
 
-    private RecyclerView recyclerView;
     private RatingListAdapter adapter;
     View FragmentView;
     FeedbackViewModel feedbackModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         FragmentView = inflater.inflate(R.layout.submit_fragment, container, false);
 
-        Toolbar toolbar = (Toolbar) FragmentView.findViewById(R.id.toolbar);
+
+
+        Toolbar toolbar = FragmentView.findViewById(R.id.toolbar);
+       // toolbar.setLogo(R.drawable.reward);
+        toolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
 
         final EditText editText = FragmentView.findViewById(R.id.feedback);
 
-         feedbackModel = ViewModelProviders.of(getActivity()).get(FeedbackViewModel.class);
-        feedbackModel.getUserMutableLiveData().observe(getActivity(), new Observer<Feedback>() {
+        feedbackModel = ViewModelProviders.of(getActivity()).get(FeedbackViewModel.class);
+        feedbackModel.getMutableLiveData().observe(getActivity(), new Observer<Feedback>() {
             @Override
             public void onChanged(Feedback feedback) {
 
                 editText.setText(feedback.getFeedbackStr());
-               // editText.setSelection(editText.getText().length());
             }
         });
 
@@ -65,12 +69,10 @@ public class SubmitFragment extends Fragment {
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
 
-                if(s.toString().equals(feedbackModel.get().getFeedbackStr()))
+                if(s.toString().equals(feedbackModel.getLiveData().getFeedbackStr()))
                     return;
-               // feedbackModel.updateLiveData(new Feedback(s.toString()));
+
                 feedbackModel.updateViewModel(new Feedback(s.toString()));
-
-
             }
 
             @Override
@@ -79,21 +81,31 @@ public class SubmitFragment extends Fragment {
             }
         });
 
+        final RatingBar ratingBar = FragmentView.findViewById(R.id.ratingBar);
 
-
-        recyclerView =  (RecyclerView) FragmentView.findViewById(R.id.recycler);
+        RecyclerView recyclerView = FragmentView.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new RatingListAdapter();
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
 
-
-       // ReviewViewModel model = new ViewModelProvider(getActivity()).get(ReviewViewModel.class);
-        ReviewViewModel model =  ViewModelProviders.of(getActivity()).get(ReviewViewModel.class);
+        final ReviewViewModel model =  ViewModelProviders.of(getActivity()).get(ReviewViewModel.class);
         model.getUserMutableLiveData().observe(getActivity(), new Observer<List<Rating>>() {
             @Override
             public void onChanged(@Nullable List<Rating> notes) {
                 adapter.setData(notes);
+                ratingBar.setRating(notes.get(notes.size()-1).getRating());
+            }
+        });
+
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                model.getFlightData().setRating((int)rating);
+
             }
         });
 

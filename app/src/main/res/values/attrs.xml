@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CollapsingLogoToolbarLayout">
+        <attr name="logoViewId" format="reference" />
+        <attr name="collapsedViewOffset" format="dimension" />
+        <attr name="expandedViewOffset" format="dimension" />
+    </declare-styleable>
+
+</resources>

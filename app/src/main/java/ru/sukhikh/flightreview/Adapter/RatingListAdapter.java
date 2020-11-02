@@ -52,7 +52,8 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void setData(List<Rating> ratingList){
-        this.ratingList = ratingList;
+
+        this.ratingList = ratingList.subList(0, ratingList.size()-1);
     }
 
     @NonNull
@@ -66,6 +67,9 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             case 1:
                 return new ViewType2(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item_review_food,
                         parent, false));
+            case 2:
+                return new ViewType1(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item_review_person,
+                        parent, false));
         }
 
         return null;
@@ -73,6 +77,9 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
+
+        if(position==0)
+            return 2;
         return (position!=(getItemCount()-1))? 0 : 1;
     }
 
@@ -80,7 +87,7 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         final Rating currentRating = ratingList.get(position);
-        switch (holder.getItemViewType()) {
+        switch (holder.getItemViewType()%2) {
             case 0:
                 ViewType1 holder1 = (ViewType1)holder;
                 holder1.question.setText(currentRating.getParameter().getQuestion());
@@ -100,19 +107,26 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             case 1:
                 final ViewType2 holder2 = (ViewType2)holder;
                 holder2.question.setText(currentRating.getParameter().getQuestion());
+                holder2.checkBox.setChecked(currentRating.isFoodChecked());
+                if(holder2.checkBox.isChecked())
+                    holder2.ratingBar.setIsIndicator(true);
 
                 holder2.checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        if(holder2.checkBox.isChecked())
-                            holder2.ratingBar.setVisibility(View.INVISIBLE);
-                        else
-                            holder2.ratingBar.setVisibility(View.VISIBLE);
+                        if(holder2.checkBox.isChecked()){
+                            holder2.ratingBar.setIsIndicator(true);
+                            holder2.ratingBar.setRating(0);
+                            currentRating.setFoodChecked(true);
+                        }
+                        else{
+                            holder2.ratingBar.setIsIndicator(false);
+                            holder2.ratingBar.setRating(0);
+                            currentRating.setFoodChecked(false);
+                        }
                     }
                 });
-                if(holder2.checkBox.isChecked())
-                    holder2.ratingBar.setIsIndicator(true);
 
                 holder2.ratingBar.setRating(currentRating.getRating());
 

@@ -1,14 +1,10 @@
-package ru.sukhikh.flightreview;
-
-import androidx.databinding.ObservableField;
+package ru.sukhikh.flightreview.Entity;
 
 public class Feedback{
 
-   // private ObservableField<String> feedbackStr;
     private  String feedbackStr;
 
     public Feedback(String feedback){
-        //feedbackStr.set(feedback);
         this.feedbackStr = feedback;
     }
 

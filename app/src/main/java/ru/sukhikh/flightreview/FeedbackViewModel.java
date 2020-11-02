@@ -3,42 +3,38 @@ package ru.sukhikh.flightreview;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import ru.sukhikh.flightreview.Entity.Feedback;
 
 
 public class FeedbackViewModel extends ViewModel {
 
-    MutableLiveData<Feedback> raringLiveData;
-    Feedback ratingList;
+    MutableLiveData<Feedback> liveData;
+    Feedback feedback;
 
     public FeedbackViewModel() {
-        raringLiveData = new MutableLiveData<>();
+        liveData = new MutableLiveData<>();
         init();
     }
-    public MutableLiveData<Feedback> getUserMutableLiveData() {
-        return raringLiveData;
+    public MutableLiveData<Feedback> getMutableLiveData() {
+        return liveData;
     }
 
     public void updateLiveData(){
-        raringLiveData.setValue(ratingList);
+        liveData.setValue(feedback);
     }
 
     public void updateViewModel(Feedback newList){
-        ratingList = newList;
+        feedback = newList;
     }
 
     public void init(){
-        populateList();
-        raringLiveData.setValue(ratingList);
+        feedback = new Feedback("");
+        liveData.setValue(feedback);
     }
 
-    public Feedback get(){
-        return  raringLiveData.getValue();
+    public Feedback getLiveData(){
+        return  liveData.getValue();
     }
 
-    public void populateList(){
-
-        ratingList = new Feedback("");
-
-    }
 
 }

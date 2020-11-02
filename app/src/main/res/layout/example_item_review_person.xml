@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/question"
             android:layout_width="wrap_content"
@@ -28,19 +27,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="3dp"
-            android:transformPivotX="0dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:theme="@style/customRatingBar"
+            android:transformPivotX="0dp"
+            style="@style/personRatingBar"
             android:stepSize="1"/>
-
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@drawable/custom_checkbox"
-            android:stateListAnimator="@null"
-            android:text="@string/noFood" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

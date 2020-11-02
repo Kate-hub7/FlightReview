@@ -27,7 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="3dp"
-            android:theme="@style/CustomRatingBar"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:transformPivotX="0dp"
+            android:theme="@style/customRatingBar"
             android:stepSize="1"/>
 
     </LinearLayout>

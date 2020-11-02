@@ -1,11 +1,10 @@
-
+<?xml version="1.0" encoding="utf-8"?>
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fillViewport="true"
+    app:layout_insetEdge="bottom"
     android:layout_marginLeft="15dp">
 
     <LinearLayout
@@ -26,21 +25,21 @@
             android:textColor="@color/colorBlack"
             android:layout_marginTop="10dp"
             android:textSize="16dp"
-            android:text="Leave any feedback"/>
+            android:text="@string/feedback"/>
 
         <EditText
             android:id="@+id/feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:textSize="15dp"
-            android:hint="Share your experience. How was the seat? How was the food? Any tips?" />
+            android:textSize="16dp"
+            android:hint="@string/tintEdittext" />
 
         <Button
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="@string/buttonSubmit"
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="?attr/actionBarSize"
