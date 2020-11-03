@@ -11,33 +11,29 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import androidx.lifecycle.ViewModelProviders;
-
-import com.google.android.material.tabs.TabItem;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.sukhikh.flightreview.Entity.Rating;
-import ru.sukhikh.flightreview.Parameter;
 import ru.sukhikh.flightreview.R;
-import ru.sukhikh.flightreview.ReviewViewModel;
+import ru.sukhikh.flightreview.ViewModel.ReviewViewModel;
 
 
 public class SuccessFragment extends Fragment {
 
-    View FragmentView;
+    View fragmentView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FragmentView = inflater.inflate(R.layout.success_fragment, container, false);
+        fragmentView = inflater.inflate(R.layout.success_fragment, container, false);
 
-        GridView listView = FragmentView.findViewById(R.id.recycler);
+        GridView listView = fragmentView.findViewById(R.id.recycler);
 
-        //ReviewViewModel model = new ViewModelProvider(getActivity()).get(ReviewViewModel.class);
-        ReviewViewModel model =  ViewModelProviders.of(getActivity()).get(ReviewViewModel.class);
+        ReviewViewModel model = new ViewModelProvider(getActivity()).get(ReviewViewModel.class);
         List<Rating>  rating = model.getUserMutableLiveData().getValue();
 
-        TextView overallRating = FragmentView.findViewById(R.id.overall_rating);
+        TextView overallRating = fragmentView.findViewById(R.id.overall_rating);
         overallRating.setText(rating.get(rating.size()-1).toString());
 
         List<String> listReview = new ArrayList<>();
@@ -47,15 +43,15 @@ public class SuccessFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.test_list_item, listReview);
         listView.setAdapter(adapter);
 
-        Button buttonClose = FragmentView.findViewById(R.id.close);
+        Button buttonClose = fragmentView.findViewById(R.id.close);
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().popBackStack();
+                getParentFragmentManager().popBackStack();
             }
         });
 
 
-        return FragmentView;
+        return fragmentView;
     }
 }

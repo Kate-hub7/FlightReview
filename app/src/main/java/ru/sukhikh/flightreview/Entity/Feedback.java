@@ -1,10 +1,12 @@
 package ru.sukhikh.flightreview.Entity;
 
+import androidx.annotation.NonNull;
+
 public class Feedback{
 
-    private  String feedbackStr;
+    private final String feedbackStr;
 
-    public Feedback(String feedback){
+    public Feedback(@NonNull String feedback){
         this.feedbackStr = feedback;
     }
 
@@ -12,7 +14,4 @@ public class Feedback{
         return feedbackStr;
     }
 
-    public void setFeedbackStr(String feedbackStr) {
-        this.feedbackStr = feedbackStr;
-    }
 }

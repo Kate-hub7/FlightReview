@@ -1,4 +1,4 @@
-package ru.sukhikh.flightreview;
+package ru.sukhikh.flightreview.ViewModel;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

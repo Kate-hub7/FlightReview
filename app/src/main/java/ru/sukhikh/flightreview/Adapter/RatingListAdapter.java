@@ -1,11 +1,9 @@
 package ru.sukhikh.flightreview.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -16,19 +14,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.sukhikh.flightreview.Entity.Rating;
+import ru.sukhikh.flightreview.Enum.Parameter;
+import ru.sukhikh.flightreview.Enum.ViewType;
 import ru.sukhikh.flightreview.R;
 
 
 public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Rating> ratingList = new ArrayList<>();
+    private final List<Rating> ratingList;
+    private final RatingListListener listener;
 
+    public RatingListAdapter(List<Rating> ratingList, RatingListListener listener) {
+        this.ratingList = ratingList.subList(0, ratingList.size()-1);
+        this.listener = listener;
+    }
+
+    public interface RatingListListener {
+        void updateRating(Parameter parameter, int newRating);
+    }
 
     public static class ViewType2 extends RecyclerView.ViewHolder{
 
-        TextView question;
-        RatingBar ratingBar;
-        CheckBox checkBox;
+        final TextView question;
+        final RatingBar ratingBar;
+        final CheckBox checkBox;
 
         public ViewType2(@NonNull View itemView) {
             super(itemView);
@@ -40,8 +49,8 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
     public static class ViewType1 extends RecyclerView.ViewHolder {
 
-        TextView question;
-        RatingBar ratingBar;
+        final TextView question;
+        final RatingBar ratingBar;
 
         public ViewType1(View itemView) {
             super(itemView);
@@ -51,23 +60,20 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public void setData(List<Rating> ratingList){
-
-        this.ratingList = ratingList.subList(0, ratingList.size()-1);
-    }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType) {
 
-        switch (viewType){
-            case 0:
+        ViewType type = ViewType.values()[viewType];
+        switch (type){
+            case OTHER:
                 return new ViewType1(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item_review,
                         parent, false));
-            case 1:
+            case FOOD:
                 return new ViewType2(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item_review_food,
                         parent, false));
-            case 2:
+            case PERSON:
                 return new ViewType1(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item_review_person,
                         parent, false));
         }
@@ -78,6 +84,7 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
 
+       // return ratingList.get(position).getParameter().ordinal();
         if(position==0)
             return 2;
         return (position!=(getItemCount()-1))? 0 : 1;
@@ -87,8 +94,11 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         final Rating currentRating = ratingList.get(position);
-        switch (holder.getItemViewType()%2) {
-            case 0:
+        ViewType type = ViewType.values()[holder.getItemViewType()];
+
+        switch (type) {
+            case PERSON:
+            case OTHER:
                 ViewType1 holder1 = (ViewType1)holder;
                 holder1.question.setText(currentRating.getParameter().getQuestion());
                 holder1.ratingBar.setRating(currentRating.getRating());
@@ -99,12 +109,13 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     public void onRatingChanged(RatingBar ratingBar, float rating,
                                                 boolean fromUser) {
 
-                        currentRating.setRating((int)rating);
+                        listener.updateRating(currentRating.getParameter(), (int)rating);
+                     //   currentRating.setRating((int)rating);
                     }
                 });
                 break;
 
-            case 1:
+            case FOOD:
                 final ViewType2 holder2 = (ViewType2)holder;
                 holder2.question.setText(currentRating.getParameter().getQuestion());
                 holder2.checkBox.setChecked(currentRating.isFoodChecked());
@@ -117,13 +128,14 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                         if(holder2.checkBox.isChecked()){
                             holder2.ratingBar.setIsIndicator(true);
-                            holder2.ratingBar.setRating(0);
                             currentRating.setFoodChecked(true);
+                            holder2.ratingBar.setRating(0);
                         }
                         else{
                             holder2.ratingBar.setIsIndicator(false);
-                            holder2.ratingBar.setRating(0);
                             currentRating.setFoodChecked(false);
+                            holder2.ratingBar.setRating(0);
+
                         }
                     }
                 });
@@ -136,7 +148,8 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     public void onRatingChanged(RatingBar ratingBar, float rating,
                                                 boolean fromUser) {
 
-                        currentRating.setRating((int)rating);
+                        listener.updateRating(currentRating.getParameter(), (int)rating);
+                    //    currentRating.setRating((int)rating);
                     }
                 });
                 break;

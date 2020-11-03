@@ -10,7 +10,8 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/appbar_corners"
+        android:stateListAnimator="@null"
+        android:background="@android:color/transparent"
         android:theme="@style/AppTheme.AppBarOverlay">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -21,17 +22,19 @@
             app:toolbarId="@+id/toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/backImage"
             android:layout_width="match_parent"
             android:layout_height="310dp"
             android:scaleType="fitXY"
-            android:src="@drawable/black"/>
+            android:src="@drawable/black"
+            app:riv_corner_radius_bottom_left="20dp"
+            app:riv_corner_radius_bottom_right="20dp"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:layout_gravity="top|center_horizontal"
                 app:layout_collapseMode="pin">
 

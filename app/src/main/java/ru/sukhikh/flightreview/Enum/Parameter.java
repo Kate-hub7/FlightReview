@@ -1,4 +1,4 @@
-package ru.sukhikh.flightreview;
+package ru.sukhikh.flightreview.Enum;
 
 public enum Parameter{
     FOOD ("How do you rate the food?", "Food"),
@@ -8,8 +8,9 @@ public enum Parameter{
     SEAT ("How do you rate the seats?", "Seats"),
     PEOPLE ("How crowded was the flight?", "Flight experience");
 
-    private String question;
-    private String name;
+    private final String question;
+    private final String name;
+
     Parameter(String question, String name) {
 
         this.question = question;
