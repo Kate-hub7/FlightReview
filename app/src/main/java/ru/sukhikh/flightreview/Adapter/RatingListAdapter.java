@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.sukhikh.flightreview.Entity.Rating;
@@ -19,14 +18,17 @@ import ru.sukhikh.flightreview.Enum.ViewType;
 import ru.sukhikh.flightreview.R;
 
 
-public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class
+RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<Rating> ratingList;
     private final RatingListListener listener;
+    private final boolean isChecked;
 
-    public RatingListAdapter(List<Rating> ratingList, RatingListListener listener) {
+    public RatingListAdapter(List<Rating> ratingList, boolean isChecked, RatingListListener listener) {
         this.ratingList = ratingList.subList(0, ratingList.size()-1);
         this.listener = listener;
+        this.isChecked = isChecked;
     }
 
     public interface RatingListListener {
@@ -84,7 +86,6 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
 
-       // return ratingList.get(position).getParameter().ordinal();
         if(position==0)
             return 2;
         return (position!=(getItemCount()-1))? 0 : 1;
@@ -103,54 +104,39 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 holder1.question.setText(currentRating.getParameter().getQuestion());
                 holder1.ratingBar.setRating(currentRating.getRating());
 
-                holder1.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                holder1.ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
 
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating,
-                                                boolean fromUser) {
-
-                        listener.updateRating(currentRating.getParameter(), (int)rating);
-                     //   currentRating.setRating((int)rating);
-                    }
+                    listener.updateRating(currentRating.getParameter(), (int)rating);
                 });
                 break;
 
             case FOOD:
                 final ViewType2 holder2 = (ViewType2)holder;
                 holder2.question.setText(currentRating.getParameter().getQuestion());
-                holder2.checkBox.setChecked(currentRating.isFoodChecked());
-                if(holder2.checkBox.isChecked())
+                holder2.ratingBar.setRating(currentRating.getRating());
+                holder2.checkBox.setChecked(isChecked);
+
+                if(isChecked)
                     holder2.ratingBar.setIsIndicator(true);
 
-                holder2.checkBox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                holder2.checkBox.setOnClickListener(v -> {
 
-                        if(holder2.checkBox.isChecked()){
-                            holder2.ratingBar.setIsIndicator(true);
-                            currentRating.setFoodChecked(true);
-                            holder2.ratingBar.setRating(0);
-                        }
-                        else{
-                            holder2.ratingBar.setIsIndicator(false);
-                            currentRating.setFoodChecked(false);
-                            holder2.ratingBar.setRating(0);
+                    if(isChecked){
+                        holder2.checkBox.setChecked(true);
+                        holder2.ratingBar.setIsIndicator(true);
+                        holder2.ratingBar.setRating(0);
+                    }
+                    else{
+                        holder2.checkBox.setChecked(false);
+                        holder2.ratingBar.setIsIndicator(false);
+                        holder2.ratingBar.setRating(0);
 
-                        }
                     }
                 });
 
-                holder2.ratingBar.setRating(currentRating.getRating());
+                holder2.ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
 
-                holder2.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating,
-                                                boolean fromUser) {
-
-                        listener.updateRating(currentRating.getParameter(), (int)rating);
-                    //    currentRating.setRating((int)rating);
-                    }
+                    listener.updateRating(currentRating.getParameter(), (int)rating);
                 });
                 break;
         }

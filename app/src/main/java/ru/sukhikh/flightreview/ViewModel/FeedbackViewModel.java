@@ -8,8 +8,8 @@ import ru.sukhikh.flightreview.Entity.Feedback;
 
 public class FeedbackViewModel extends ViewModel {
 
-    MutableLiveData<Feedback> liveData;
-    Feedback feedback;
+    private MutableLiveData<Feedback> liveData;
+    private Feedback feedback;
 
     public FeedbackViewModel() {
         liveData = new MutableLiveData<>();

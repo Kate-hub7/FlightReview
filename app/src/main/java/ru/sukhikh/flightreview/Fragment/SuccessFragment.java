@@ -23,17 +23,18 @@ import ru.sukhikh.flightreview.ViewModel.ReviewViewModel;
 
 public class SuccessFragment extends Fragment {
 
-    View fragmentView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.success_fragment, container, false);
 
-        GridView listView = fragmentView.findViewById(R.id.recycler);
+        final View fragmentView = inflater.inflate(R.layout.success_fragment, container, false);
+
+        final GridView listView = fragmentView.findViewById(R.id.recycler);
 
         ReviewViewModel model = new ViewModelProvider(getActivity()).get(ReviewViewModel.class);
-        List<Rating>  rating = model.getUserMutableLiveData().getValue();
+        List<Rating>  rating = model.getRatingListMutableLiveData().getValue();
 
-        TextView overallRating = fragmentView.findViewById(R.id.overall_rating);
+        final TextView overallRating = fragmentView.findViewById(R.id.overall_rating);
         overallRating.setText(rating.get(rating.size()-1).toString());
 
         List<String> listReview = new ArrayList<>();
@@ -43,7 +44,7 @@ public class SuccessFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.test_list_item, listReview);
         listView.setAdapter(adapter);
 
-        Button buttonClose = fragmentView.findViewById(R.id.close);
+        final Button buttonClose = fragmentView.findViewById(R.id.close);
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

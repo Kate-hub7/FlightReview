@@ -4,7 +4,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_insetEdge="bottom"
+    android:layout_marginBottom="5dp"
     android:layout_marginLeft="15dp">
 
     <LinearLayout
@@ -42,7 +42,6 @@
             android:text="@string/buttonSubmit"
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="?attr/actionBarSize"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:background="@drawable/submit_button_style"/>

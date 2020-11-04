@@ -1,7 +1,5 @@
 package ru.sukhikh.flightreview.ViewModel;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,28 +7,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.sukhikh.flightreview.Entity.Rating;
+import ru.sukhikh.flightreview.Entity.RatingFood;
 import ru.sukhikh.flightreview.Enum.Parameter;
 
 public class ReviewViewModel extends ViewModel {
 
-    MutableLiveData<List<Rating>> ratingLiveData;
-    List<Rating> ratingList;
+    private MutableLiveData<List<Rating>> ratingLiveData;
+    private MutableLiveData<RatingFood> ratingFoodLiveData;
+    private List<Rating> ratingList;
+    private RatingFood ratingFood;
 
     public ReviewViewModel() {
         ratingLiveData = new MutableLiveData<>();
+        ratingFoodLiveData = new MutableLiveData<>();
         init();
     }
-    public MutableLiveData<List<Rating>> getUserMutableLiveData() {
+    public MutableLiveData<List<Rating>> getRatingListMutableLiveData() {
         return ratingLiveData;
     }
 
-    public Rating getFlightData(){return ratingList.get(ratingList.size()-1);}
-
-    public void updateLiveData(List<Rating> newList){
-        ratingLiveData.setValue(newList);
+    public MutableLiveData<RatingFood> getRatingFoodLiveData(){
+        return ratingFoodLiveData;
     }
 
-    public void init(){
+    public List<Rating> getRatingList(){
+        return ratingList;
+    }
+
+    private void init(){
         populateList();
         ratingLiveData.setValue(ratingList);
     }
@@ -52,16 +56,26 @@ public class ReviewViewModel extends ViewModel {
         updateRatingList(ratingList.size()-1, Parameter.FLIGHT, newRating);
     }
 
+    public  boolean AvailabilityFood(){
+        return ratingFood.isFoodChecked();
+    }
+    private void ChangedAvailabilityFood(){
+        ratingFood = new RatingFood(ratingFood.getRating(), !ratingFood.isFoodChecked());
+        ratingFoodLiveData.setValue(ratingFood);
+    }
     private void updateRatingList(int index, Parameter parameter, int newRating){
 
         List<Rating> newList = new ArrayList<>(ratingList);
         newList.set(index, new Rating(parameter, newRating, false));
         ratingList = newList;
-        Log.d("mytag", ratingList.toString());
+
+        if(parameter==Parameter.FOOD)
+            ratingFood = new RatingFood(ratingList.get(4), ratingFood.isFoodChecked());
+
         ratingLiveData.setValue(ratingList);
     }
 
-    public void populateList(){
+    private void populateList(){
 
         ratingList = new ArrayList<>();
         ratingList.add(new Rating(Parameter.PEOPLE, 0, false));
@@ -70,6 +84,8 @@ public class ReviewViewModel extends ViewModel {
         ratingList.add(new Rating(Parameter.CREW, 0, false));
         ratingList.add(new Rating(Parameter.FOOD, 0, false));
         ratingList.add(new Rating(Parameter.FLIGHT, 0, false));
+
+        ratingFood = new RatingFood(ratingList.get(4), false);
     }
 
 }

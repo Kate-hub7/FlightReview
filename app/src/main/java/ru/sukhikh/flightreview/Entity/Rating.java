@@ -12,7 +12,6 @@ public class Rating {
     private final Parameter parameter;
     private final int rating;
     private final boolean required;
-    private boolean foodChecked;
 
     public Rating(@NonNull final Parameter parameter,
                   @NonNull final int rating,
@@ -20,7 +19,6 @@ public class Rating {
         this.parameter = parameter;
         this.rating = rating;
         this.required = required;
-        this.foodChecked = false;
     }
 
     @Override
@@ -32,14 +30,6 @@ public class Rating {
         }
 
         return Double.valueOf(rating)+" "+parameter.getName();
-    }
-
-    public boolean isFoodChecked() {
-        return foodChecked;
-    }
-
-    public void setFoodChecked(boolean foodChecked) {
-        this.foodChecked = foodChecked;
     }
 
     public Parameter getParameter() {
