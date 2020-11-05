@@ -26,10 +26,6 @@ public class ReviewViewModel extends ViewModel {
         return ratingLiveData;
     }
 
-    public MutableLiveData<RatingFood> getRatingFoodLiveData(){
-        return ratingFoodLiveData;
-    }
-
     public List<Rating> getRatingList(){
         return ratingList;
     }
@@ -59,10 +55,19 @@ public class ReviewViewModel extends ViewModel {
     public  boolean AvailabilityFood(){
         return ratingFood.isFoodChecked();
     }
-    private void ChangedAvailabilityFood(){
-        ratingFood = new RatingFood(ratingFood.getRating(), !ratingFood.isFoodChecked());
+
+    public void updateCheckbox(){
+
+        List<Rating> newList = new ArrayList<>(ratingList);
+        newList.set(4, new Rating(Parameter.FOOD, 0, false));
+        ratingList = newList;
+
+        ratingFood = new RatingFood(ratingList.get(4), !ratingFood.isFoodChecked());
+
+        ratingLiveData.setValue(ratingList);
         ratingFoodLiveData.setValue(ratingFood);
     }
+
     private void updateRatingList(int index, Parameter parameter, int newRating){
 
         List<Rating> newList = new ArrayList<>(ratingList);
@@ -73,6 +78,7 @@ public class ReviewViewModel extends ViewModel {
             ratingFood = new RatingFood(ratingList.get(4), ratingFood.isFoodChecked());
 
         ratingLiveData.setValue(ratingList);
+        ratingFoodLiveData.setValue(ratingFood);
     }
 
     private void populateList(){

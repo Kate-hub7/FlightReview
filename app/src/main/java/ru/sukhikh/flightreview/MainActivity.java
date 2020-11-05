@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-
 import ru.sukhikh.flightreview.Fragment.SubmitFragment;
 
 
@@ -21,6 +20,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 }

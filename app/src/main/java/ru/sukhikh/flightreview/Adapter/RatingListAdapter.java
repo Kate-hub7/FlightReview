@@ -18,8 +18,7 @@ import ru.sukhikh.flightreview.Enum.ViewType;
 import ru.sukhikh.flightreview.R;
 
 
-public class
-RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<Rating> ratingList;
     private final RatingListListener listener;
@@ -33,6 +32,7 @@ RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface RatingListListener {
         void updateRating(Parameter parameter, int newRating);
+        void updateStateCheckbox();
     }
 
     public static class ViewType2 extends RecyclerView.ViewHolder{
@@ -121,17 +121,7 @@ RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 holder2.checkBox.setOnClickListener(v -> {
 
-                    if(isChecked){
-                        holder2.checkBox.setChecked(true);
-                        holder2.ratingBar.setIsIndicator(true);
-                        holder2.ratingBar.setRating(0);
-                    }
-                    else{
-                        holder2.checkBox.setChecked(false);
-                        holder2.ratingBar.setIsIndicator(false);
-                        holder2.ratingBar.setRating(0);
-
-                    }
+                    listener.updateStateCheckbox();
                 });
 
                 holder2.ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {

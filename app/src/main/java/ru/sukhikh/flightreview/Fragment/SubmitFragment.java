@@ -33,6 +33,7 @@ import java.util.List;
 import ru.sukhikh.flightreview.Adapter.RatingListAdapter;
 import ru.sukhikh.flightreview.Entity.Feedback;
 import ru.sukhikh.flightreview.Entity.Rating;
+import ru.sukhikh.flightreview.Enum.Parameter;
 import ru.sukhikh.flightreview.R;
 import ru.sukhikh.flightreview.ViewModel.FeedbackViewModel;
 import ru.sukhikh.flightreview.ViewModel.ReviewViewModel;
@@ -54,11 +55,7 @@ public class SubmitFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View fragmentView = inflater.inflate(R.layout.submit_fragment, container, false);
-
-
-
-        return fragmentView;
+        return inflater.inflate(R.layout.submit_fragment, container, false);
     }
 
     @Override
@@ -71,12 +68,11 @@ public class SubmitFragment extends Fragment {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
 
-        final CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.toolbar_layout);
-        final AppBarLayout app_bar=(AppBarLayout)view.findViewById(R.id.app_bar);
+        final AppBarLayout appBarLayout=(AppBarLayout)view.findViewById(R.id.app_bar);
         final LinearLayout linearLayout= view.findViewById(R.id.swap);
         final ImageView imageView = view.findViewById(R.id.icon);
 
-        app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
@@ -106,7 +102,7 @@ public class SubmitFragment extends Fragment {
 
         final EditText editText = view.findViewById(R.id.feedback);
 
-        feedbackModel = new ViewModelProvider(this).get(FeedbackViewModel.class);
+        feedbackModel = new ViewModelProvider(getActivity()).get(FeedbackViewModel.class);
         feedbackModel.getMutableLiveData().observe(getActivity(), feedback -> editText.setText(feedback.getFeedbackStr()));
 
         editText.addTextChangedListener(new TextWatcher() {
@@ -130,7 +126,7 @@ public class SubmitFragment extends Fragment {
         });
 
         //   final ReviewViewModel model =  ViewModelProviders.of(getActivity()).get(ReviewViewModel.class);
-        model = new ViewModelProvider(getActivity()).get(ReviewViewModel.class);
+        model = new ViewModelProvider(this).get(ReviewViewModel.class);
 
         Button submit = view.findViewById(R.id.submit);
         submit.setOnClickListener(v -> {
@@ -142,7 +138,7 @@ public class SubmitFragment extends Fragment {
             List<Rating> tempList = model.getRatingList();
             StringBuilder results = new StringBuilder();
             for (int i=0;i<tempList.size();i++)
-                results.append(tempList.get(i).toString()+"\n");
+                results.append(tempList.get(i).toString()).append("\n");
 
             results.append(feedbackModel.getLiveData().getFeedbackStr());
             Toast.makeText(getActivity(), results.toString(), Toast.LENGTH_SHORT).show();
@@ -182,7 +178,17 @@ public class SubmitFragment extends Fragment {
 
         model.getRatingListMutableLiveData().observe(getViewLifecycleOwner(), notes -> {
 
-            adapter = new RatingListAdapter(notes, model.AvailabilityFood(),model::onRatingBarChanged);
+            adapter = new RatingListAdapter(notes, model.AvailabilityFood(), new RatingListAdapter.RatingListListener() {
+                @Override
+                public void updateRating(Parameter parameter, int newRating) {
+                    model.onRatingBarChanged(parameter, newRating);
+                }
+
+                @Override
+                public void updateStateCheckbox() {
+                    model.updateCheckbox();
+                }
+            });
             recyclerView.setAdapter(adapter);
 
             //overall review
