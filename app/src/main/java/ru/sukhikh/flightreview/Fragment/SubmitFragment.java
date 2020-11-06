@@ -107,7 +107,7 @@ public class SubmitFragment extends Fragment {
         final EditText editText = view.findViewById(R.id.feedback);
 
         feedbackModel = new ViewModelProvider(getActivity()).get(FeedbackViewModel.class);
-        feedbackModel.getMutableLiveData().observe(getActivity(), feedback -> editText.setText(feedback.getFeedbackStr()));
+        feedbackModel.getMutableLiveData().observe(getViewLifecycleOwner(), feedback -> editText.setText(feedback.getFeedbackStr()));
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
