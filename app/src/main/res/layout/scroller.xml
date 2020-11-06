@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
+    android:layout_height="match_parent"
+    android:overScrollMode="never"
+    android:scrollbars="none"
     android:layout_marginLeft="15dp">
 
     <LinearLayout
@@ -44,6 +45,7 @@
             android:layout_marginTop="10dp"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/submit_button_style"/>
 
 

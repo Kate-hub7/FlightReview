@@ -6,7 +6,7 @@ public class Feedback{
 
     private final String feedbackStr;
 
-    public Feedback(@NonNull String feedback){
+    public Feedback(@NonNull final String feedback){
         this.feedbackStr = feedback;
     }
 

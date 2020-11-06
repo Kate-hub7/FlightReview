@@ -78,9 +78,10 @@ public class RatingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             case PERSON:
                 return new ViewType1(LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item_review_person,
                         parent, false));
+            default:
+                throw new IllegalArgumentException("Unknown ViewType: " + viewType);
         }
 
-        return null;
     }
 
     @Override

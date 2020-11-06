@@ -7,8 +7,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -19,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -62,6 +66,10 @@ public class SubmitFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Window window = getActivity().getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.colorBlack));
+
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
         toolbar.setContentInsetsAbsolute(0,0);
@@ -73,29 +81,25 @@ public class SubmitFragment extends Fragment {
         final ImageView imageView = view.findViewById(R.id.icon);
 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+
+            int mAppBarOffset;
+
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
-                if (verticalOffset == 0) {
-                    if (state != CollapsingToolbarLayoutState.EXPANDED) {
-                        state = CollapsingToolbarLayoutState.EXPANDED;
-                        imageView.setVisibility(View.GONE);
-                    }
-                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-                    if (state != CollapsingToolbarLayoutState.COLLAPSED) {
-                        linearLayout.setVisibility(View.GONE);
-                        imageView.setVisibility(View.VISIBLE);
-                        state = CollapsingToolbarLayoutState.COLLAPSED;
-                    }
-                } else {
-                    if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
-                        if(state == CollapsingToolbarLayoutState.COLLAPSED){
-                            linearLayout.setVisibility(View.VISIBLE);
-                            imageView.setVisibility(View.GONE);
-                        }
-                        state = CollapsingToolbarLayoutState.INTERNEDIATE;
-                    }
+                mAppBarOffset = verticalOffset;
+                int totalScrollRange = appBarLayout.getTotalScrollRange();
+
+                float alpha = (float) -verticalOffset / totalScrollRange;
+                imageView.setAlpha(alpha);
+                linearLayout.setAlpha(1-alpha);
+
+                if (alpha == 0) {
+                    imageView.setVisibility(View.GONE);
+                } else if (imageView.getVisibility() == View.GONE) {
+                    imageView.setVisibility(View.VISIBLE);
                 }
+
             }
         });
 
@@ -126,14 +130,13 @@ public class SubmitFragment extends Fragment {
         });
 
         //   final ReviewViewModel model =  ViewModelProviders.of(getActivity()).get(ReviewViewModel.class);
-        model = new ViewModelProvider(this).get(ReviewViewModel.class);
+        model = new ViewModelProvider(getActivity()).get(ReviewViewModel.class);
 
         Button submit = view.findViewById(R.id.submit);
         submit.setOnClickListener(v -> {
 
-            final ProgressBar progressBar = view.findViewById(R.id.progress_bar);
-
-            progressBar.setVisibility(View.VISIBLE);
+            FrameLayout layout = view.findViewById(R.id.progress);
+            layout.setVisibility(View.VISIBLE);
 
             List<Rating> tempList = model.getRatingList();
             StringBuilder results = new StringBuilder();
@@ -154,7 +157,6 @@ public class SubmitFragment extends Fragment {
 
                     handler.post(new Runnable() {
                         public void run() {
-                            progressBar.setVisibility(View.INVISIBLE);
 
                             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_container, new SuccessFragment());
@@ -196,6 +198,15 @@ public class SubmitFragment extends Fragment {
         });
 
         ratingBar.setOnRatingBarChangeListener((ratingBar1, rating, fromUser) -> model.onOverallRatingChanged((int) rating));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        adapter = null;
+        feedbackModel=null;
+        model=null;
     }
 
     @Override
