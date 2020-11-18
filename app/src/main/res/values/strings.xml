@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FlightReview</string>
+    <string name="header">How do you rate the overall flight experience?</string>
+    <string name="tintEdittext">Share your experience. How was the seat? How was the food? Any tips?</string>
+    <string name="feedback">Leave any feedback</string>
+    <string name="buttonSubmit">Submit</string>
+    <string name="noFood">There were no food</string>
+</resources>
